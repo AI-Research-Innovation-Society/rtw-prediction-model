@@ -1,7 +1,7 @@
 import joblib
 
 def load_model():
-    "Load the trained model from the specified file.""
+    """Load the trained model from the default 'model.pkl' file."""
     model_path = "model.pkl"
     print(f"Load models from '{model_path}'...")
     model = joblib.load(model_path)
