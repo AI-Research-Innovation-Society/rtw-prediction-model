@@ -1,6 +1,4 @@
-import pandas as pd 
 import joblib
-import argparse
 
 def load_model():
     "Load the trained model from the specified file.""
