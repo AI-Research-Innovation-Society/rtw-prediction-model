@@ -3,20 +3,20 @@ name: Feature Request
 about: Suggest a new feature
 title: "[FEATURE] "
 labels: enhancement
-assignees 🧑‍💻: ''
+assignees: ''
 
 
--> 📄 Feature Description
+-> Feature Description
 Describe the feature.
 
--> 🎯 Problem it solves
+-> Problem it solves
 What problem does this solve?
 
--> 💡 The Solution
+-> The Solution
 How should it work?
 
--> 🔄 Alternatives
+-> Alternatives
 Any alternatives considered?
 
--> 📝 Additional Context
+-> Additional Context
 Anything else.
