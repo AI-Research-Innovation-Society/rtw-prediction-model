@@ -46,20 +46,20 @@ The dataset contains records of workers compensation claims with different detai
 
 ```
 rtw-prediction-model/
- ┣ data/sample/
- ┣ docs/
- ┣ notebooks/
- ┣ src/
- ┃ ┣ evaluate.py
- ┃ ┣ predict.py
- ┃ ┣ preprocess.py
- ┃ ┣ train.py
- ┣ tests/
- ┣ CONTRIBUTING.md
- ┣ LICENSE
- ┣ README.md
- ┣ requirements.txt
-```
+├── data/
+│   └── sample/
+├── docs/
+├── notebooks/
+├── src/
+│   ├── evaluate.py
+│   ├── predict.py
+│   ├── preprocess.py
+│   └── train.py
+├── tests/
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+└── requirements.txt
 
 ---
 
