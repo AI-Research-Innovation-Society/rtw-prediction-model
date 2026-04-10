@@ -70,7 +70,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
             df[col] = pd.to_datetime(df[col], errors="coerce", dayfirst=True)
 
     # Identify categorical and numeric columns
-    cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
+    cat_cols = df.select_dtypes(include=["object", "category", "str"]).columns.tolist()
     num_cols = df.select_dtypes(include=["number"]).columns.tolist()
     # Identify datetime columns (after conversion)
     datetime_cols = df.select_dtypes(include=["datetime"]).columns.tolist()
@@ -88,9 +88,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
             fill_val = "Unknown"
         df[col] = series.fillna(fill_val)
 
-    # Fill numeric columns with median
+    # Fill numeric columns with median; fall back to 0 for all-null columns
     for col in num_cols:
         median = df[col].median()
+        if pd.isna(median):
+            median = 0
         df[col] = df[col].fillna(median)
 
     # Fill datetime columns: use mode if available, else a fallback (1970-01-01)
@@ -150,12 +152,15 @@ def encode_features(df: pd.DataFrame) -> pd.DataFrame:
     }
 
     if "RTW Category" in df.columns:
-        # Ensure strings and strip whitespace before mapping
-        df["RTW Category"] = df["RTW Category"].astype(str).str.strip()
-        df["RTW Category"] = df["RTW Category"].map(mapping)
+        col = df["RTW Category"]
+        # Only strip and map when the column holds string/categorical values;
+        # skip if it is already numeric (e.g., previously encoded 0/1/2).
+        if not pd.api.types.is_numeric_dtype(col):
+            df["RTW Category"] = col.str.strip().map(mapping)
+        # Numeric columns are left unchanged.
 
     # One-hot encode remaining categorical columns
-    cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
+    cat_cols = df.select_dtypes(include=["object", "category", "str"]).columns.tolist()
     # Ensure we don't one-hot encode the target if it remains object-like
     if "RTW Category" in cat_cols:
         cat_cols.remove("RTW Category")

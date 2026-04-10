@@ -1,10 +1,3 @@
-import sys
-from pathlib import Path
-
-# Ensure project root is importable for tests
-ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))
-
 import pandas as pd
 import numpy as np
 from src.preprocess import (
@@ -14,6 +7,17 @@ from src.preprocess import (
     get_features_and_target,
     split_data,
 )
+
+
+def test_load_data(tmp_path):
+    csv_file = tmp_path / "sample.csv"
+    csv_file.write_text("A,B\n1,2\n3,4\n")
+
+    df = load_data(str(csv_file))
+
+    assert isinstance(df, pd.DataFrame)
+    assert list(df.columns) == ["A", "B"]
+    assert len(df) == 2
 
 
 def test_clean_data():
@@ -29,7 +33,7 @@ def test_clean_data():
     assert df_clean.isnull().sum().sum() == 0
 
     # Date column converted
-    assert pd.api.types.is_datetime64_any_dtype(df_clean["Start Date"]) 
+    assert pd.api.types.is_datetime64_any_dtype(df_clean["Start Date"])
 
 
 def test_encode_features():
